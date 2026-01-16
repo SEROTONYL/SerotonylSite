@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SEROTONYL — Bots</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="bots.css" />
+</head>
+
+<body class="grain">
+<svg class="svg-filters" width="0" height="0" aria-hidden="true">
+    <filter id="wobble">
+        <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.012" numOctaves="1" seed="2" />
+        <feDisplacementMap in="SourceGraphic" scale="1.2" />
+    </filter>
+</svg>
+
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<header class="topbar">
+    <a class="brand" href="index.html" aria-label="На главную">
+        <span class="brand__pix">SEROTONYL</span>
+        <span class="brand__sub">BOT FILES</span>
+    </a>
+
+    <nav class="nav" aria-label="Навигация">
+        <a href="#cases">Cases</a>
+        <a href="#services">Services</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="hero" data-reveal>
+        <div class="hero__left">
+            <h1 class="h1 pix">BOTS / CASE FILES</h1>
+            <p class="lead">
+                Делаю Telegram/Discord ботов под ключ: роли, модерация, платежи, интеграции.
+                Запуск, деплой, обновления и поддержка.
+            </p>
+
+            <div class="hero__badges">
+                <span class="badge">Сроки: 3–21 день</span>
+                <span class="badge">Деплой + обновления</span>
+                <span class="badge">Поддержка после запуска</span>
+            </div>
+
+            <a class="mini-link" href="#cases">↓ смотреть кейсы</a>
+        </div>
+    </section>
+
+    <section id="cases" class="section">
+        <div class="section__head" data-reveal>
+            <h2 class="h2 pix">CASE INDEX</h2>
+        </div>
+
+        <div class="cases">
+            <article class="case" data-case="wallet" data-reveal data-stagger>
+                <div class="case__top">
+                    <div class="case__id pix">FILE 01</div>
+                    <div class="case__hint">TG • 7–10 дней</div>
+                </div>
+                <h3 class="case__title">Экономика/валюта + роли в Telegram</h3>
+                <div class="case__meta">
+                    <span class="tag">aiogram</span>
+                    <span class="tag">кнопки/меню</span>
+                    <span class="tag">хранение данных</span>
+                </div>
+                <p class="case__desc">
+                    Валюта, выдача/списание, мультивыбор пользователей, роли, админ-управление, логирование.
+                </p>
+                <button class="case__open" type="button">OPEN FILE</button>
+            </article>
+
+            <article class="case" data-case="moderation" data-reveal data-stagger>
+                <div class="case__top">
+                    <div class="case__id pix">FILE 02</div>
+                    <div class="case__hint">DS • 10–14 дней</div>
+                </div>
+                <h3 class="case__title">Модерация + антиспам + заявки</h3>
+                <div class="case__meta">
+                    <span class="tag">discord.js</span>
+                    <span class="tag">лог действий</span>
+                    <span class="tag">алерты модерам</span>
+                </div>
+                <p class="case__desc">
+                    Фильтры ссылок/флуда, верификация, заявки в роли, журнал действий, уведомления модераторам.
+                </p>
+                <button class="case__open" type="button">OPEN FILE</button>
+            </article>
+
+            <article class="case" data-case="payments" data-reveal data-stagger>
+                <div class="case__top">
+                    <div class="case__id pix">FILE 03</div>
+                    <div class="case__hint">TG • 14–21 день</div>
+                </div>
+                <h3 class="case__title">Подписка/платежи + доступ к контенту</h3>
+                <div class="case__meta">
+                    <span class="tag">payments</span>
+                    <span class="tag">доступ/продления</span>
+                    <span class="tag">админ-управление</span>
+                </div>
+                <p class="case__desc">
+                    Оплата, выдача доступа, продления, защита от отмен/ошибок, управление тарифами и пользователями.
+                </p>
+                <button class="case__open" type="button">OPEN FILE</button>
+            </article>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="section__head" data-reveal>
+            <h2 class="h2 pix">WHAT I BUILD</h2>
+        </div>
+
+        <div class="grid2">
+            <div class="card" data-reveal data-stagger>
+                <h3 class="card__h pix">Core</h3>
+                <ul class="list">
+                    <li>Команды, меню, кнопки</li>
+                    <li>Роли/права/верификация</li>
+                    <li>Модерация, антиспам</li>
+                </ul>
+            </div>
+            <div class="card" data-reveal data-stagger>
+                <h3 class="card__h pix">Business</h3>
+                <ul class="list">
+                    <li>Платежи/подписки</li>
+                    <li>Экономика/магазин</li>
+                    <li>Интеграции (API/Sheets/Notion)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="section__head" data-reveal>
+            <h2 class="h2 pix">CONTACT</h2>
+        </div>
+
+        <div class="contact" data-reveal>
+            <div class="contact__card">
+                <div class="contact__row"><span class="k pix">TG</span> <a href="https://t.me/yaveiiii" target="_blank" rel="noopener">t.me/yaveiiii</a></div>
+                <div class="contact__row"><span class="k pix">MAIL</span> <a href="mailto:you@mail.com">vladislav.yavorskiy.00@mail.ru</a></div>
+                <div class="contact__row"><span class="k pix">GITHUB</span> <a href="https://github.com/SEROTONYL" target="_blank" rel="noopener">github.com/SEROTONYL</a></div>
+            </div>
+
+            <div class="contact__hint">
+                <div class="pix">MESSAGE TEMPLATE</div>
+                <pre class="template">Платформа: TG/Discord
+Что нужно: ...
+Срок: ...
+Есть ли ТЗ/референсы: да/нет
+Доступы/хостинг: есть/нужен</pre>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer muted small">
+        © SEROTONYL — Bots
+    </footer>
+</main>
+
+<dialog class="dialog" id="caseDialog" aria-label="Case file">
+    <div class="dialog__top">
+        <div class="pix" id="dlgTitle">CASE FILE</div>
+        <button class="x" id="dlgClose" type="button" aria-label="Закрыть">×</button>
+    </div>
+    <div class="dialog__body" id="dlgBody"></div>
+    <div class="dialog__bottom">
+        <button class="btn" id="dlgOk" type="button">Закрыть</button>
+    </div>
+</dialog>
+
+<script src="bots.js"></script>
+</body>
+</html>

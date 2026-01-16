@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>SEROTONYL / MUSIC</title>
+  <link rel="stylesheet" href="music.css" />
+  <script src="music.js" defer></script>
+</head>
+<body>
+<!-- ЗВУК: этот элемент обязателен -->
+<canvas id="react" class="react" aria-hidden="true"></canvas>
+
+<audio id="audio" preload="metadata"></audio>
+
+<header class="top">
+  <a class="brand" href="index.html">SEROTONYL</a>
+  <span class="crumb">MUSIC</span>
+
+  <a class="order" href="#order" aria-label="Как заказать">order</a>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero__left">
+      <h1 class="h">MUSIC / TAPE DECK</h1>
+      <p class="p">
+        Коммишны. Брейккор/джангл/тяжёлые гитары, перегруз и злые транзиенты.
+        Делаю грязно, но так, чтобы это читалось и било.
+      </p>
+      <div class="chips" role="list" aria-label="Условия">
+        <span class="chip" role="listitem">commission only</span>
+        <span class="chip" role="listitem">stems по запросу</span>
+        <span class="chip" role="listitem">сроки по задаче</span>
+      </div>
+      <p class="p p--hint">Жми PLAY и Комната начнёт сыпаться от звука.</p>
+    </div>
+
+    <div class="hero__right">
+      <section class="deck" id="deck" aria-label="Кассетник">
+        <div class="deck__top">
+          <div class="deck__tag">TAPE</div>
+          <div class="deck__meta">
+            <div id="trackTitle" class="deck__title">Preview: D1g1tal rain in sunny p4rk</div>
+            <div id="trackMeta" class="deck__sub">SEROTONYL · 140 bpm</div>
+          </div>
+          <div class="deck__rec" aria-hidden="true"><span class="dot"></span>REC</div>
+        </div>
+
+        <div class="deck__mid" aria-hidden="true">
+          <div class="tape">
+            <div class="reel left" id="reelL"></div>
+            <div class="belt"></div>
+            <div class="reel right" id="reelR"></div>
+            <div class="scratches"></div>
+          </div>
+        </div>
+
+        <div class="deck__controls">
+          <button class="btn small" id="prevBtn" type="button" aria-label="Предыдущий трек">←</button>
+          <button class="btn big" id="playBtn" type="button" aria-label="Play/Pause">PLAY</button>
+          <button class="btn small" id="stopBtn" type="button" aria-label="Стоп">STOP</button>
+          <button class="btn small" id="nextBtn" type="button" aria-label="Следующий трек">→</button>
+        </div>
+
+        <div class="deck__seek">
+          <label class="sr" for="seek">Позиция</label>
+          <input id="seek" class="seek" type="range" min="0" max="1000" value="0" aria-label="Позиция трека" />
+          <div class="time">
+            <span id="curTime">0:00</span>
+            <span class="sep">/</span>
+            <span id="durTime">0:00</span>
+          </div>
+        </div>
+
+        <div class="deck__bottom">
+          <div class="intensityRow">
+            <span class="intensityLabel">INTENSITY</span>
+            <input id="intensity" type="range" min="0" max="100" value="65">
+          </div>
+          <p class="copy" id="copyNote" aria-live="polite"></p>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="rack" aria-label="Кассеты">
+    <h2 class="h2">CASSETTE RACK</h2>
+
+    <div class="rack__grid" id="rackGrid">
+      <!-- ВАЖНО: внутри button только <span> (так валидатор не орёт) -->
+      <button class="tapeCard is-active" type="button" data-i="0" aria-label="Включить Tape 01">
+        <span class="tapeCard__kicker">TAPE 01</span>
+        <span class="tapeCard__title">Preview: D1g1tal rain in sunny p4rk</span>
+        <span class="tapeCard__tags" aria-hidden="true">
+            <span class="tag">jungle</span>
+            <span class="tag">breaks</span>
+            <span class="tag">transients</span>
+          </span>
+      </button>
+
+      <button class="tapeCard" type="button" data-i="1" aria-label="Включить Tape 02">
+        <span class="tapeCard__kicker">TAPE 02</span>
+        <span class="tapeCard__title">Preview: Memories</span>
+        <span class="tapeCard__tags" aria-hidden="true">
+            <span class="tag">calm</span>
+            <span class="tag">vibe</span>
+            <span class="tag">pressure</span>
+          </span>
+      </button>
+
+      <button class="tapeCard" type="button" data-i="2" aria-label="Включить Tape 03">
+        <span class="tapeCard__kicker">TAPE 03</span>
+        <span class="tapeCard__title">Preview: YOUR MAJESTY</span>
+        <span class="tapeCard__tags" aria-hidden="true">
+            <span class="tag">guitars</span>
+            <span class="tag">blow-up</span>
+            <span class="tag">noise</span>
+          </span>
+      </button>
+    </div>
+
+  </section>
+
+  <section class="commission" id="order" aria-label="Коммишн">
+    <h2 class="h2">COMMISSION</h2>
+
+    <div class="cols">
+      <div class="card">
+        <div class="card__title">Как написать</div>
+        <ul class="list">
+          <li>рефы (2–4) и что конкретно нравится</li>
+          <li>цель: релиз / интро / игра / видео</li>
+          <li>темп / длительность / дедлайн</li>
+          <li>что точно должно быть (гитары/брейки/вокал-чопы)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card__title">Контакты</div>
+        <div class="kv">
+          <div class="k">TG</div>
+          <div class="v"><a class="link" href="https://t.me/yaveiiii">t.me/yaveiiii</a></div>
+        </div>
+        <div class="kv">
+          <div class="k">MAIL</div>
+          <div class="v"><a>vladislav.yavorskiy@mail.ru</a></div>
+        </div>
+
+        <div class="card__title" style="margin-top:14px;">Шаблон</div>
+        <label class="sr" for="tpl">Шаблон заказа</label>
+        <textarea id="tpl" class="tpl" rows="5" readonly aria-label="Шаблон заказа">Рефы:
+Цель:
+Темп/длина:
+Что точно надо:
+Дедлайн:</textarea>
+        <div class="row">
+          <button class="btn" id="copyTpl" type="button">COPY TEMPLATE</button>
+          <span class="mini" id="copyStatus" aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">© SEROTONYL — Music</footer>
+</main>
+
+<!-- SVG фильтры (валидно, без странных "старых" штук) -->
+<svg class="svgfx" width="0" height="0" aria-hidden="true">
+  <filter id="fuzz" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" seed="2" result="n" />
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+</body>
+</html>

@@ -1,0 +1,541 @@
+:root{
+  --bg:#fbfbfb;
+  --ink:#0a0a0a;
+  --muted:rgba(10,10,10,.55);
+  --door:#0b0b0b;
+  --lineSoft:rgba(10,10,10,.28);
+
+  /* live state (JS) */
+  --anx: 0;
+  --camx: 0px;
+  --camy: 0px;
+  --moodOp: .18;
+  --moodBlur: 0px;
+  --dustOp: .22;
+  --dotsOp: .18;
+  --noiseOp: .22;
+
+  /* чтобы IDE не ныла */
+  --lamp-rot: 0deg;
+  --logoVis: 0;
+  --logoJx: 0px;
+  --logoJy: 0px;
+
+  --jx: 0px;
+  --jy: 0px;
+  --jr: 0deg;
+  --js: 1;
+
+  --dx: 0px;
+  --dy: 0px;
+  --mr: 1px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+/* пиксельный курсор */
+html{
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%230a0a0a' d='M1 1h2v2H1zM3 3h2v2H3zM5 5h2v2H5zM7 7h2v2H7zM9 9h2v2H9zM11 11h2v2h-2zM7 9h2v4H7zM9 11h2v2H9z'/%3E%3C/svg%3E") 0 0, auto;
+}
+
+body{
+  margin:0;
+  /* лёгкое “плохое освещение” от лампы */
+  background:
+          radial-gradient(ellipse at 50% 8%, rgba(255,255,255,.95) 0%, rgba(251,251,251,.96) 42%, rgba(242,242,242,.98) 78%, rgba(235,235,235,1) 100%),
+          var(--bg);
+  color:var(--ink);
+  overflow:hidden;
+  isolation:isolate;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* white-space точки */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background: radial-gradient(circle, rgba(0,0,0,.10) 1px, transparent 1px) 0 0/18px 18px;
+  opacity: var(--dotsOp, .18);
+  z-index:0;
+}
+
+/* лёгкий шум */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background:
+          radial-gradient(circle at 20% 30%,
+          rgba(0,0,0,.05) 0px,
+          rgba(0,0,0,.05) 1px,
+          transparent 1px,
+          transparent 2px
+          ) 0 0/19px 19px,
+          radial-gradient(circle at 70% 60%,
+          rgba(0,0,0,.04) 0px,
+          rgba(0,0,0,.04) 1px,
+          transparent 1px,
+          transparent 2px
+          ) 0 0/23px 23px;
+
+  opacity: var(--noiseOp, .22);
+  mix-blend-mode:multiply;
+  z-index:0;
+}
+
+.svg-filters{ position:absolute; left:-9999px; top:-9999px; }
+
+/* применяем SVG фильтр wobble */
+.wobble{ filter: url(#wobble); }
+
+/* canvas пыль/глитч */
+#dust{
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:50;
+  opacity: var(--dustOp, .22);
+  mix-blend-mode:multiply;
+}
+
+/* виньетка + сканлайны: тревожность без цвета */
+#mood{
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:30;
+  opacity: var(--moodOp, .18);
+  filter: blur(var(--moodBlur, 0px));
+  mix-blend-mode:multiply;
+
+  background:
+          radial-gradient(ellipse at 50% 12%, rgba(0,0,0,.10) 0%, rgba(0,0,0,0) 56%),
+          radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 38%, rgba(0,0,0,.18) 100%),
+          repeating-linear-gradient(0deg, rgba(0,0,0,.055) 0px, rgba(0,0,0,.055) 1px, transparent 1px, transparent 4px);
+}
+
+/* ---------------- UI toggle ---------------- */
+.ui{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:90;
+
+  font-family:"Press Start 2P", system-ui, sans-serif;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  background: rgba(251,251,251,.86);
+  border: 2px solid rgba(0,0,0,.45);
+  box-shadow: 0 10px 26px rgba(0,0,0,.08);
+  padding: 8px 10px;
+  user-select:none;
+}
+
+.ui__toggle{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color: rgba(0,0,0,.55);
+  cursor:pointer;
+}
+
+.ui__toggle input{
+  width:14px;
+  height:14px;
+  accent-color: #0a0a0a;
+}
+
+.ui__toggle:hover{ color: rgba(0,0,0,.85); }
+
+/* "убрать рябь" = вырубаем сканлайны/глитч-оверлеи */
+body.ripple-off #dust{ opacity: 0 !important; }
+body.ripple-off #mood{ opacity: 0 !important; }
+body.ripple-off .lamp__beam::after{ opacity: 0 !important; }
+
+body.blackout #mood{ opacity: .55; filter: blur(0px); }
+body.blackout::before{ opacity: .30; }
+body.blackout::after{ opacity: .35; }
+
+/* сцена */
+.ws{
+  position:relative;
+  height:100%;
+  display:grid;
+  place-items:center;
+  padding: clamp(16px, 3vw, 48px);
+  z-index:10;
+
+  transform: translate(var(--camx, 0px), var(--camy, 0px));
+  will-change: transform;
+}
+
+/* ---------------- LAMP ---------------- */
+
+.lamp{
+  position:fixed;
+  top:0; left:50%;
+  transform:translateX(-50%);
+  width:280px;
+  height:300px;
+  z-index:40;
+
+  /* события ловим хитбоксом */
+  pointer-events:none;
+}
+
+/* маятник: вращаем риг */
+.lamp__rig{
+  position:absolute; inset:0;
+  transform-origin: 50% 0%;
+  transform: rotate(var(--lamp-rot, 0deg));
+  will-change: transform;
+}
+
+.lamp__cord{
+  position:absolute;
+  top:0; left:50%;
+  transform:translateX(-50%);
+  width:5px;
+  height:140px;
+  background:var(--ink);
+  box-shadow:2px 0 0 rgba(10,10,10,.18);
+}
+
+.lamp__socket{
+  position:absolute;
+  top:130px; left:50%;
+  transform:translateX(-50%);
+  width:52px;
+  height:28px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+}
+
+/* чёрный “луч” как конус (не прямоугольник) */
+.lamp__beam{
+  position:absolute;
+  top:164px;
+  left:50%;
+  transform: translateX(-50%) scaleX(var(--beamSX, 1)) scaleY(var(--beamSY, 1));
+  width:680px;
+  height:520px;
+
+  /* конус */
+  clip-path: polygon(50% 0%, 14% 100%, 86% 100%);
+
+  /* мягкая тень внутри */
+  background:
+          radial-gradient(ellipse at 50% 0%,
+          rgba(0,0,0,.52) 0%,
+          rgba(0,0,0,.34) 26%,
+          rgba(0,0,0,.20) 44%,
+          rgba(0,0,0,.10) 60%,
+          transparent 74%
+          );
+
+  mix-blend-mode:multiply;
+  opacity: var(--beamOp, .55);
+  filter: blur(var(--beamBlur, 7px));
+  pointer-events:none;
+  will-change: opacity, filter, transform;
+}
+
+/* “нервы” внутри луча: сканлайны + редкие тёмные полосы */
+.lamp__beam::after{
+  content:"";
+  position:absolute;
+  inset:-12%;
+  pointer-events:none;
+
+  background:
+          repeating-linear-gradient(0deg, rgba(0,0,0,.10) 0px, rgba(0,0,0,.10) 1px, transparent 1px, transparent 6px),
+          repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0px, rgba(0,0,0,.06) 1px, transparent 1px, transparent 18px),
+          radial-gradient(ellipse at 50% 0%, rgba(0,0,0,.18), transparent 62%);
+
+  opacity: var(--beamGrain, .10);
+  mix-blend-mode:multiply;
+  filter: blur(.4px);
+}
+
+.lamp__bulb{
+  position:absolute;
+  top:152px; left:50%;
+  transform:translateX(-50%);
+  width:58px;
+  height:58px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  border-radius:999px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.10);
+  filter: brightness(var(--bulbBright, 1));
+  will-change: filter;
+}
+
+.lamp__bulb::before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:999px;
+  background: radial-gradient(closest-side, rgba(0,0,0,.10), transparent 70%);
+  opacity: var(--bulbHalo, .22);
+  mix-blend-mode:multiply;
+}
+
+.lamp__bulb::after{
+  content:"";
+  position:absolute;
+  inset: 11px 17px 20px 12px;
+  border-radius:999px;
+  background: radial-gradient(circle at 35% 35%, rgba(0,0,0,.07), transparent 60%);
+  opacity:.9;
+}
+
+/* небольшой тёмный ореол */
+.lamp__glow{
+  position:absolute;
+  top:188px; left:50%;
+  transform:translateX(-50%);
+  width:320px;
+  height:260px;
+  background: radial-gradient(closest-side, rgba(0,0,0,.12), transparent 70%);
+  opacity:.35;
+  mix-blend-mode:multiply;
+  pointer-events:none;
+}
+
+/* хитбокс: теперь можно брать лампочку */
+.lamp__hit{
+  position:absolute;
+  left:50%;
+  top:90px;
+  transform:translateX(-50%);
+  width:160px;
+  height:190px;
+
+  pointer-events:auto;
+  touch-action:none;
+  background: transparent;
+}
+
+.lamp__hit::after{
+  content:"";
+  position:absolute;
+  inset: 46px 46px 10px 46px;
+  border-radius:999px;
+  outline: 2px dashed rgba(0,0,0,.22);
+  outline-offset: 6px;
+  opacity: var(--hitVis, 0);
+  transform: scale(.96);
+  filter: blur(.2px);
+}
+
+body.blackout .lamp__beam{ opacity:.08; filter: blur(3px); }
+body.blackout .lamp__bulb{ filter: brightness(.92); }
+
+/* ---------------- SECRET LOGO (проявляется в луче) ---------------- */
+
+.secret-logo{
+  position: fixed;
+  left: 50%;
+  top: 235px;
+  transform: translateX(-50%) translate(var(--logoJx, 0px), var(--logoJy, 0px));
+  z-index:45;
+
+  pointer-events:none;
+  text-align:center;
+
+  opacity: var(--logoVis, 0);
+  mix-blend-mode: multiply;
+  user-select:none;
+}
+
+.secret-logo__main{
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  font-size: 18px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,.55);
+
+  text-shadow:
+          1px 0 0 rgba(0,0,0,.35),
+          -1px 0 0 rgba(0,0,0,.35),
+          0 1px 0 rgba(0,0,0,.35),
+          0 -1px 0 rgba(0,0,0,.35);
+}
+
+.secret-logo__sub{display:none;}
+
+.secret-logo .ch{
+  display:inline-block;
+  margin-right: .06em;
+  transform: none;
+}
+
+.secret-logo .ch:last-child{ margin-right: 0; }
+
+/* ---------------- DOORS ---------------- */
+
+.doors{
+  display:flex;
+  gap: clamp(28px, 6vw, 120px);
+  align-items:flex-end;
+  justify-content:center;
+  margin-top: 90px;
+  z-index:20;
+}
+
+.door{
+  position:relative;
+  width: clamp(150px, 18vw, 250px);
+  aspect-ratio: 2 / 3;
+  text-decoration:none;
+  color:var(--ink);
+  perspective: 950px;
+  outline:none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.door__label{
+  position:absolute;
+  top:-56px; left:50%;
+  transform:translateX(-50%);
+  font-family:"Press Start 2P", system-ui, sans-serif;
+  font-size:12px;
+  letter-spacing:.18em;
+  color:rgba(10,10,10,.55);
+  text-transform:uppercase;
+  user-select:none;
+}
+
+.door__rig{
+  position:absolute; inset:0;
+  transform:
+          translate(var(--jx,0px), var(--jy,0px))
+          rotate(var(--jr,0deg))
+          scale(var(--js,1));
+  will-change: transform;
+}
+
+.door__frame{
+  position:absolute; inset:0;
+  border:5px solid var(--ink);
+  background:transparent;
+  box-shadow: 0 14px 40px rgba(0,0,0,.06);
+}
+
+.door__frame::before{
+  content:"";
+  position:absolute; inset:10px;
+  border:4px solid var(--ink);
+  opacity:.94;
+}
+
+.door__frame::after{
+  content:"";
+  position:absolute; inset:-4px;
+  border:3px solid var(--lineSoft);
+  pointer-events:none;
+}
+
+.door__inside{
+  position:absolute;
+  inset:12px;
+  background:
+          radial-gradient(circle at 30% 40%, rgba(255,255,255,.06), transparent 55%),
+          linear-gradient(90deg, rgba(0,0,0,.25), rgba(0,0,0,.08) 70%);
+  opacity:0;
+  transition: opacity .40s cubic-bezier(.2,.95,.2,1);
+  pointer-events:none;
+}
+
+.door__panel{
+  position:absolute;
+  inset:12px;
+  background:
+          radial-gradient(circle at 30% 25%, rgba(255,255,255,.08), transparent 45%),
+          radial-gradient(circle at 70% 70%, rgba(255,255,255,.05), transparent 50%),
+          linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%),
+          var(--door);
+  border:5px solid var(--ink);
+  transform-origin: 0% 50%;
+  transform: rotateY(var(--open,0deg));
+  transition: transform .42s cubic-bezier(.2,.95,.2,1), filter .42s cubic-bezier(.2,.95,.2,1);
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+  overflow:hidden;
+  will-change: transform;
+}
+
+.door__wear{
+  position:absolute; inset:0;
+  pointer-events:none;
+  background:
+          repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0px, rgba(255,255,255,.06) 1px, transparent 1px, transparent 22px),
+          repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0px, rgba(255,255,255,.05) 1px, transparent 1px, transparent 26px),
+          radial-gradient(circle at 20% 70%, rgba(255,255,255,.09), transparent 46%),
+          radial-gradient(circle at 80% 20%, rgba(255,255,255,.07), transparent 52%),
+          radial-gradient(circle at 60% 55%, rgba(255,255,255,.05), transparent 55%);
+  opacity:.95;
+  mix-blend-mode: screen;
+}
+
+.door__panelBorder{
+  position:absolute;
+  inset:10px;
+  border:4px solid rgba(255,255,255,.16);
+  box-shadow: inset 0 0 0 3px rgba(0,0,0,.25);
+  pointer-events:none;
+  opacity:.9;
+}
+
+.door__knob{
+  position:absolute;
+  right:16px;
+  top:52%;
+  transform:translateY(-50%);
+  width:12px; height:12px;
+  border-radius:999px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow: 0 0 0 2px rgba(10,10,10,.22);
+}
+
+.door:hover .door__label,
+.door:focus-visible .door__label{ color:var(--ink); }
+
+.door:hover .door__inside,
+.door:focus-visible .door__inside,
+.door.is-open .door__inside{ opacity:1; }
+
+.door:hover .door__panel,
+.door:focus-visible .door__panel,
+.door.is-open .door__panel{
+  --open: -74deg;
+  filter: contrast(1.06);
+}
+
+/* подсказка */
+.hint{
+  position:fixed;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"Press Start 2P", system-ui, sans-serif;
+  font-size:10px;
+  letter-spacing:.12em;
+  color:rgba(0,0,0,.25);
+  user-select:none;
+  z-index:30;
+  text-transform:uppercase;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #dust{ display:none; }
+  #mood{ display:none; }
+  .door__panel{ transition:none; }
+  .secret-logo{ transform: translateX(-50%); }
+  .ws{ transform:none; }
+  .lamp__beam{ filter:none; }
+}

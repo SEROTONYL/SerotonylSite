@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SEROTONYL</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+<!-- SVG фильтр для “живых/неровных” линий -->
+<svg class="svg-filters" width="0" height="0" aria-hidden="true">
+  <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="2" result="noise"/>
+    <feDisplacementMap id="dispMap" in="SourceGraphic" in2="noise" scale="2"/>
+  </filter>
+</svg>
+
+<!-- Пыль/глитчи поверх всей сцены -->
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<!-- тревожный “вайб” поверх фона (виньетка/сканлайны) -->
+<div id="mood" aria-hidden="true"></div>
+
+<!-- быстрый выключатель для чувствительных глаз -->
+<div class="ui" aria-label="Настройки">
+  <label class="ui__toggle" for="toggleRipple">
+    <input type="checkbox" id="toggleRipple" />
+    <span>убрать рябь</span>
+  </label>
+</div>
+
+<!-- Лампа -->
+<div class="lamp">
+  <div class="lamp__rig wobble">
+    <div class="lamp__cord"></div>
+    <div class="lamp__socket"></div>
+
+    <!-- “чёрный свет” (тень-конус) -->
+    <div class="lamp__beam"></div>
+
+    <div class="lamp__bulb"></div>
+    <div class="lamp__glow"></div>
+
+    <!-- хитбокс: теперь можно хватать/тянуть -->
+    <div class="lamp__hit" aria-label="Лампа"></div>
+  </div>
+</div>
+
+<!-- Секретный логотип: проявляется только в луче -->
+<div id="secretLogo" class="secret-logo" aria-hidden="true">
+  <div class="secret-logo__main">SEROTONYL</div>
+</div>
+
+<!-- Сцена -->
+<main class="ws">
+  <nav class="doors" aria-label="Выбор раздела">
+    <a class="door" href="bots.html" aria-label="Перейти в раздел Bots">
+      <span class="door__label">BOTS</span>
+
+      <span class="door__rig wobble" aria-hidden="true">
+          <span class="door__frame"></span>
+          <span class="door__inside"></span>
+
+          <span class="door__panel">
+            <span class="door__wear"></span>
+            <span class="door__panelBorder"></span>
+            <span class="door__knob"></span>
+          </span>
+        </span>
+    </a>
+
+    <a class="door" href="music.html" aria-label="Перейти в раздел Music">
+      <span class="door__label">MUSIC</span>
+
+      <span class="door__rig wobble" aria-hidden="true">
+          <span class="door__frame"></span>
+          <span class="door__inside"></span>
+
+          <span class="door__panel">
+            <span class="door__wear"></span>
+            <span class="door__panelBorder"></span>
+            <span class="door__knob"></span>
+          </span>
+        </span>
+    </a>
+  </nav>
+</main>
+
+<div class="hint" aria-hidden="true"></div>
+
+<script src="./main.js"></script>
+</body>
+</html>
