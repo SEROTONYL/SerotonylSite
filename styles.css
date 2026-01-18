@@ -31,8 +31,17 @@
   --mr: 1px;
 }
 
-*{ box-sizing:border-box; }
+*,
+*::before,
+*::after{ box-sizing:border-box; }
 html,body{ height:100%; }
+img,
+video,
+canvas{
+  max-width:100%;
+  height:auto;
+  display:block;
+}
 
 /* пиксельный курсор */
 html{
@@ -538,4 +547,45 @@ body.blackout .lamp__bulb{ filter: brightness(.92); }
   .secret-logo{ transform: translateX(-50%); }
   .ws{ transform:none; }
   .lamp__beam{ filter:none; }
+}
+
+@media (max-width: 520px){
+  .ui{
+    top:10px;
+    right:10px;
+    padding: 6px 8px;
+    font-size:8px;
+  }
+
+  .doors{
+    flex-direction:column;
+    align-items:center;
+    gap:24px;
+    margin-top: 70px;
+  }
+
+  .door{
+    width: min(220px, 78vw);
+  }
+
+  .door__label{
+    top:-46px;
+    font-size:10px;
+  }
+
+  .lamp{
+    width:220px;
+    height:250px;
+  }
+
+  .lamp__beam{
+    width:520px;
+    height:420px;
+  }
+
+  .hint{
+    font-size:8px;
+    text-align:center;
+    padding:0 12px;
+  }
 }

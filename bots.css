@@ -16,8 +16,16 @@
     --ui:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-*{ box-sizing:border-box; }
+*,
+*::before,
+*::after{ box-sizing:border-box; }
 html,body{ height:100%; }
+img,
+video{
+    max-width:100%;
+    height:auto;
+    display:block;
+}
 
 /* Плавные якоря, но уважаем reduced motion */
 @media (prefers-reduced-motion: no-preference){
@@ -206,7 +214,7 @@ a:focus-visible{
 /* FIX: auto-fit чтобы сетка не “ломала” карточки */
 .cases{
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 14px;
     align-items: stretch;
 }
@@ -472,7 +480,20 @@ a:focus-visible{
     .contact{ grid-template-columns: 1fr; }
 }
 
+@media (max-width: 768px){
+    .topbar{
+        flex-wrap:wrap;
+        align-items:flex-start;
+    }
+    .brand{ min-width:0; }
+    .nav{
+        width:100%;
+        margin-left:0;
+    }
+}
+
 @media (max-width: 420px){
+    .page{ padding: 18px 14px 48px; }
     .contact__row{
         grid-template-columns: 1fr;
         row-gap: 6px;
