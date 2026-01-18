@@ -91,7 +91,7 @@
 
     const CASES = {
         wallet: {
-            title: "КЕЙС 01 — Валюта и роли в Telegram",
+            title: "ЗАДАЧА 01 — Валюта и роли в Telegram",
             body: `
         <p><b>Задача:</b> сделать баланс и роли так, чтобы админ не делал всё руками.</p>
         <p><b>Что сделали:</b> начисления и списания, выбор нескольких пользователей для действий, роли и права, админ-кнопки, журнал операций, хранение данных.</p>
@@ -100,7 +100,7 @@
       `
         },
         moderation: {
-            title: "КЕЙС 02 — Модерация, антиспам и заявки (Discord)",
+            title: "ЗАДАЧА 02 — Модерация, антиспам и заявки (Discord)",
             body: `
         <p><b>Задача:</b> снизить спам и упростить выдачу ролей через заявки.</p>
         <p><b>Что сделали:</b> фильтры, проверка новых участников, заявки на роли, журнал действий, уведомления модераторам.</p>
@@ -109,7 +109,7 @@
       `
         },
         payments: {
-            title: "КЕЙС 03 — Оплата и доступ к контенту (Telegram)",
+            title: "ЗАДАЧА 03 — Оплата и доступ к контенту (Telegram)",
             body: `
         <p><b>Задача:</b> выдавать доступ к контенту по оплате и автоматически продлевать подписку.</p>
         <p><b>Что сделали:</b> сценарий оплаты, выдача доступа, продления, защита от отмен и ошибок, админ-управление.</p>
@@ -128,11 +128,13 @@
         if (!dlg || !title || !body || !closeBtn || !okBtn) return;
 
         let lastFocus = null;
+        let isClosing = false;
 
         function openCase(key) {
             const c = CASES[key];
             if (!c) return;
             lastFocus = document.activeElement;
+            isClosing = false;
 
             title.textContent = c.title;
             body.innerHTML = c.body;
@@ -140,14 +142,47 @@
             if (typeof dlg.showModal === "function") dlg.showModal();
             else dlg.setAttribute("open", "open");
 
+            dlg.classList.add("is-visible");
+            if (prefersReduce) {
+                dlg.classList.add("is-open");
+            } else {
+                requestAnimationFrame(() => {
+                    dlg.classList.add("is-open");
+                });
+            }
+
             closeBtn.focus();
         }
 
         function closeCase() {
-            if (typeof dlg.close === "function") dlg.close();
-            else dlg.removeAttribute("open");
+            if (!dlg.hasAttribute("open") || isClosing) return;
+            isClosing = true;
+            dlg.classList.remove("is-open");
 
-            if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+            const finishClose = () => {
+                dlg.classList.remove("is-visible");
+                if (typeof dlg.close === "function") dlg.close();
+                else dlg.removeAttribute("open");
+                isClosing = false;
+                if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+            };
+
+            if (prefersReduce) {
+                finishClose();
+                return;
+            }
+
+            const onEnd = (event) => {
+                if (event.target !== dlg) return;
+                dlg.removeEventListener("transitionend", onEnd);
+                finishClose();
+            };
+            dlg.addEventListener("transitionend", onEnd);
+            setTimeout(() => {
+                dlg.removeEventListener("transitionend", onEnd);
+                if (isClosing) finishClose();
+            }, 220);
+
         }
 
         document.querySelectorAll(".case").forEach(card => {
@@ -158,6 +193,10 @@
 
         closeBtn.addEventListener("click", closeCase);
         okBtn.addEventListener("click", closeCase);
+        dlg.addEventListener("cancel", (event) => {
+            event.preventDefault();
+            closeCase();
+        });
 
         dlg.addEventListener("click", (e) => {
             const r = dlg.getBoundingClientRect();
