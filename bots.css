@@ -116,6 +116,7 @@ a:focus-visible{
     padding:8px 10px;
     border-radius:12px;
     border:1px solid transparent;
+    overflow-wrap: anywhere;
 }
 .nav a:hover{
     color:var(--ink);
@@ -145,6 +146,17 @@ a:focus-visible{
     line-height: 1.55;
     margin: 0 0 16px;
 }
+.hero-callout{
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,.14);
+    background:
+            linear-gradient(180deg, rgba(0,0,0,.015), rgba(0,0,0,.00)),
+            radial-gradient(circle at 18% 35%, var(--accentSoft), transparent 60%),
+            radial-gradient(circle at 85% 30%, var(--accent2Soft), transparent 60%);
+    margin: 0 0 16px;
+}
+.hero-callout .lead{ margin:0; }
 
 .muted{ color:var(--muted); }
 .small{ font-size:13px; line-height:1.45; }
@@ -230,6 +242,7 @@ a:focus-visible{
     background:
             linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.00)),
             radial-gradient(circle at 20% 30%, rgba(0,0,0,.05), transparent 60%);
+    overflow-wrap: anywhere;
 }
 
 .case__title{
@@ -321,11 +334,13 @@ a:focus-visible{
     display:flex;
     gap: 12px;
     align-items:center;
+    flex-wrap: wrap;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
 }
 .contact__row:last-child{ border-bottom:none; }
-.k{ width: 70px; font-size: 11px; opacity:.75; color: rgba(0,0,0,.62); }
+.k{ min-width: 70px; font-size: 11px; opacity:.75; color: rgba(0,0,0,.62); }
+.contact__row a{ overflow-wrap:anywhere; word-break: break-word; }
 
 .contact__hint{
     border:1px solid var(--line);
