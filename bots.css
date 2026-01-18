@@ -14,6 +14,7 @@
 
     --pix:"Press Start 2P", system-ui, sans-serif;
     --ui:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    --page-pad: clamp(14px, 3vw, 22px);
 }
 
 *,
@@ -21,7 +22,9 @@
 *::after{ box-sizing:border-box; }
 html,body{ height:100%; }
 img,
-video{
+svg,
+video,
+canvas{
     max-width:100%;
     height:auto;
     display:block;
@@ -90,14 +93,16 @@ a:focus-visible{
     background: rgba(251,251,251,.84);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--line);
+    flex-wrap:wrap;
 }
+.topbar > *{ min-width:0; }
 
 .brand{
     display:flex;
     flex-direction:column;
     gap:6px;
     color:inherit;
-    min-width: 190px;
+    min-width: 0;
 }
 .brand:hover{ text-decoration:none; }
 .brand__pix{
@@ -138,14 +143,15 @@ a:focus-visible{
 .page{
     position:relative;
     z-index:2;
+    width:100%;
     max-width: 1100px;
     margin:0 auto;
-    padding: 22px 18px 60px;
+    padding: var(--page-pad) var(--page-pad) 60px;
 }
 
 .pix{ font-family:var(--pix); letter-spacing:.12em; text-transform:uppercase; }
-.h1{ font-size:22px; margin:0 0 12px; }
-.h2{ font-size:16px; margin:0; }
+.h1{ font-size: clamp(18px, 3.4vw, 24px); margin:0 0 12px; }
+.h2{ font-size: clamp(14px, 2.4vw, 18px); margin:0; }
 
 .lead{
     max-width: 70ch;
@@ -341,8 +347,8 @@ a:focus-visible{
 }
 .contact__row{
     display:grid;
-    grid-template-columns: 120px 1fr;
-    column-gap: 12px;
+    grid-template-columns: clamp(92px, 22vw, 150px) 1fr;
+    gap: 12px;
     align-items:start;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
@@ -352,7 +358,7 @@ a:focus-visible{
     font-size: 11px;
     opacity:.75;
     color: rgba(0,0,0,.62);
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
 .contact-value{
     min-width: 0;
@@ -398,26 +404,24 @@ a:focus-visible{
     box-shadow: 0 26px 80px rgba(0,0,0,.18);
     padding: 14px;
     opacity: 0;
-    transform: translateY(8px) scale(0.98);
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+    transform: translateY(10px) scale(0.98);
 }
 .dialog::backdrop{
     background: rgba(0,0,0,.25);
     opacity: 0;
-    transition: opacity .18s ease;
 }
-.dialog.is-visible{
-    visibility: visible;
-    pointer-events: auto;
-    transition: opacity .18s ease, transform .18s ease, visibility 0s;
+.dialog[open]{
+    animation: dialog-in 220ms ease forwards;
 }
-.dialog.is-open{
-    opacity: 1;
-    transform: translateY(0) scale(1);
+.dialog[open]::backdrop{
+    animation: backdrop-in 220ms ease forwards;
 }
-.dialog.is-open::backdrop{ opacity: 1; }
+.dialog.closing{
+    animation: dialog-out 180ms ease forwards;
+}
+.dialog.closing::backdrop{
+    animation: backdrop-out 180ms ease forwards;
+}
 .dialog__top{
     display:flex;
     justify-content:space-between;
@@ -475,17 +479,13 @@ a:focus-visible{
     transform: translateY(0);
 }
 
-@media (max-width: 960px){
+@media (max-width: 980px){
     .grid2{ grid-template-columns: 1fr; }
     .contact{ grid-template-columns: 1fr; }
 }
 
-@media (max-width: 768px){
-    .topbar{
-        flex-wrap:wrap;
-        align-items:flex-start;
-    }
-    .brand{ min-width:0; }
+@media (max-width: 720px){
+    .topbar{ align-items:flex-start; }
     .nav{
         width:100%;
         margin-left:0;
@@ -493,7 +493,7 @@ a:focus-visible{
 }
 
 @media (max-width: 420px){
-    .page{ padding: 18px 14px 48px; }
+    .page{ padding-bottom: 48px; }
     .contact__row{
         grid-template-columns: 1fr;
         row-gap: 6px;
@@ -503,9 +503,27 @@ a:focus-visible{
 @media (prefers-reduced-motion: reduce){
     [data-reveal]{ transition:none; transform:none; opacity:1; }
     #dust{ display:none; }
-    .dialog{
-        transition: none;
+    .dialog,
+    .dialog::backdrop{
+        animation: none;
         transform: none;
+        opacity: 1;
     }
-    .dialog::backdrop{ transition: none; }
+}
+
+@keyframes dialog-in{
+    from{ opacity:0; transform: translateY(10px) scale(0.98); }
+    to{ opacity:1; transform: translateY(0) scale(1); }
+}
+@keyframes dialog-out{
+    from{ opacity:1; transform: translateY(0) scale(1); }
+    to{ opacity:0; transform: translateY(8px) scale(0.98); }
+}
+@keyframes backdrop-in{
+    from{ opacity:0; }
+    to{ opacity:1; }
+}
+@keyframes backdrop-out{
+    from{ opacity:1; }
+    to{ opacity:0; }
 }
