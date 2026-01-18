@@ -345,14 +345,40 @@
     // pivot
     let pivotX = 0,
       pivotY = 0;
-    const L = 182;
+    const BASE_L = 182;
     // чуть больше амплитуда, чтобы можно было "запустить" маятник
     const MAX = 0.72;
     const OMEGA_MAX = 3.6;
 
     // геометрия луча (под твой конус)
-    const BEAM_MAX = 520;
+    const BASE_BEAM_MAX = 520;
     const BEAM_HALF_ANGLE = 0.44; // ~25°
+    const BASE_PROXIMITY = 160;
+    const BASE_NEAR = 200;
+    let lampScale = 1;
+    let scaledL = BASE_L;
+    let scaledBeamMax = BASE_BEAM_MAX;
+    let scaledProximity = BASE_PROXIMITY;
+    let scaledNear = BASE_NEAR;
+    let lastScaleCheck = 0;
+
+    const readLampScale = () => {
+      const raw =
+        getComputedStyle(rig).getPropertyValue("--lamp-scale") ||
+        getComputedStyle(root).getPropertyValue("--lamp-scale");
+      const parsed = parseFloat(raw);
+      if (Number.isNaN(parsed) || parsed <= 0) return 1;
+      return parsed;
+    };
+
+    const updateLampScale = () => {
+      lampScale = readLampScale();
+      scaledL = BASE_L * lampScale;
+      scaledBeamMax = BASE_BEAM_MAX * lampScale;
+      scaledProximity = BASE_PROXIMITY * lampScale;
+      scaledNear = BASE_NEAR * lampScale;
+    };
+    updateLampScale();
 
     function recalcPivot() {
       const r = lamp.getBoundingClientRect();
@@ -360,7 +386,10 @@
       pivotY = r.top;
     }
     recalcPivot();
-    addEventListener("resize", recalcPivot);
+    addEventListener("resize", () => {
+      recalcPivot();
+      updateLampScale();
+    });
 
     function trackPointer(e) {
       const t = performance.now();
@@ -551,16 +580,16 @@
         const damp = 0.92; // меньше = дольше качается
         const breeze = Math.sin(t * 0.0009) * 0.012 * (0.25 + state.anx * 0.9);
 
-        const bulbX = pivotX + Math.sin(theta) * L;
-        const bulbY = pivotY + Math.cos(theta) * L;
+        const bulbX = pivotX + Math.sin(theta) * scaledL;
+        const bulbY = pivotY + Math.cos(theta) * scaledL;
 
         const dxp = px - bulbX;
         const dyp = py - bulbY;
         const dist = Math.hypot(dxp, dyp);
 
         // мягкое толкание курсором (чуть сильнее, чтобы можно было разогнать)
-        if (dist < 160) {
-          const proximity = 1 - dist / 160;
+        if (dist < scaledProximity) {
+          const proximity = 1 - dist / scaledProximity;
           const tang = (pvx * -dyp + pvy * dxp) / (dist + 12);
           omega += tang * 0.12 * proximity;
         }
@@ -577,10 +606,10 @@
       rig.style.setProperty("--lamp-rot", `${(theta * 180) / Math.PI}deg`);
 
       // тревожность = близость + скорость + всплески
-      const bulbX = pivotX + Math.sin(theta) * L;
-      const bulbY = pivotY + Math.cos(theta) * L;
+      const bulbX = pivotX + Math.sin(theta) * scaledL;
+      const bulbY = pivotY + Math.cos(theta) * scaledL;
       const distToPointer = Math.hypot(px - bulbX, py - bulbY);
-      const near = clamp(1 - distToPointer / 200, 0, 1);
+      const near = clamp(1 - distToPointer / scaledNear, 0, 1);
 
       let spike = 0;
       if (t < state.spikeUntil) {
@@ -629,8 +658,8 @@
       rig.style.setProperty("--bulbHalo", (0.20 + state.anx * 0.20).toFixed(3));
 
       // ----- reveal logo only when beam hits -----
-      const apexX = pivotX + Math.sin(theta) * L;
-      const apexY = pivotY + Math.cos(theta) * L + 16;
+      const apexX = pivotX + Math.sin(theta) * scaledL;
+      const apexY = pivotY + Math.cos(theta) * scaledL + 16;
 
       const dirX = Math.sin(theta);
       const dirY = Math.cos(theta);
@@ -647,13 +676,13 @@
 
       let vis = 0;
 
-      if (along > 0 && along < BEAM_MAX) {
+      if (along > 0 && along < scaledBeamMax) {
         const maxPerp = along * Math.tan(BEAM_HALF_ANGLE);
         const edge = 1 - perp / (maxPerp + 1e-6);
 
         const inside = smoothstep(0.0, 1.0, edge);
         const fadeIn = smoothstep(10, 70, along);
-        const fadeOut = 1 - smoothstep(BEAM_MAX - 100, BEAM_MAX, along);
+        const fadeOut = 1 - smoothstep(scaledBeamMax - 100, scaledBeamMax, along);
 
         // нервное мерцание зависит от тревожности
         const flicker =
@@ -676,6 +705,10 @@
       }
 
       audioTick(t);
+      if (t - lastScaleCheck > 500) {
+        updateLampScale();
+        lastScaleCheck = t;
+      }
       requestAnimationFrame(frame);
     }
 
