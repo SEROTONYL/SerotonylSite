@@ -345,9 +345,10 @@ a:focus-visible{
 
 .contact{
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.75fr 1.25fr;
     gap: 14px;
 }
+.contact > *{ min-width: 0; }
 .contact__card{
     border:1px solid var(--line);
     border-radius: 18px;
@@ -356,22 +357,24 @@ a:focus-visible{
     padding: 14px;
 }
 .contact__row{
-    display:grid;
-    grid-template-columns: minmax(110px, 140px) 1fr;
-    column-gap: 12px;
-    align-items:start;
+    display:flex;
+    gap: 12px;
+    align-items:center;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
 }
 .contact__row:last-child{ border-bottom:none; }
-.contact-label{
+.contact-label,
+.k{
     font-size: 11px;
     opacity:.75;
     color: rgba(0,0,0,.62);
     white-space: nowrap;
     overflow-wrap: anywhere;
+    flex: 0 0 110px;
 }
-.contact-value{
+.contact-value,
+.v{
     min-width: 0;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -396,7 +399,12 @@ a:focus-visible{
             radial-gradient(circle at 85% 30%, var(--accent2Soft), transparent 60%),
             rgba(0,0,0,.02);
     color: rgba(0,0,0,.74);
-    overflow:auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow: hidden;
+}
+.template-note{
+    margin-top: 10px;
     overflow-wrap: anywhere;
 }
 
@@ -514,8 +522,9 @@ a:focus-visible{
     .contact__card,
     .contact__hint{ padding: 12px; }
     .contact__row{
-        grid-template-columns: 1fr;
-        row-gap: 6px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
     }
 }
 
