@@ -345,7 +345,7 @@ a:focus-visible{
 
 .contact{
     display:grid;
-    grid-template-columns: 1.75fr 1.25fr;
+    grid-template-columns: minmax(320px, 1.15fr) minmax(320px, 0.85fr);
     gap: 14px;
 }
 .contact > *{ min-width: 0; }
@@ -355,11 +355,13 @@ a:focus-visible{
     background: var(--card);
     box-shadow: var(--shadow);
     padding: 14px;
+    min-width: 0;
 }
 .contact__row{
-    display:flex;
-    gap: 12px;
-    align-items:center;
+    display:grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: 12px;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
 }
@@ -371,7 +373,6 @@ a:focus-visible{
     color: rgba(0,0,0,.62);
     white-space: nowrap;
     overflow-wrap: anywhere;
-    flex: 0 0 110px;
 }
 .contact-value,
 .v{
@@ -388,6 +389,7 @@ a:focus-visible{
     background: var(--card);
     box-shadow: var(--shadow);
     padding: 14px;
+    min-width: 0;
 }
 .template{
     margin: 10px 0 0;
@@ -401,11 +403,8 @@ a:focus-visible{
     color: rgba(0,0,0,.74);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-    overflow: hidden;
-}
-.template-note{
-    margin-top: 10px;
-    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.55;
 }
 
 .footer{
@@ -498,7 +497,7 @@ a:focus-visible{
     transform: translateY(0);
 }
 
-@media (max-width: 980px){
+@media (max-width: 960px){
     .grid2{ grid-template-columns: 1fr; }
     .contact{ grid-template-columns: 1fr; }
 }
@@ -511,7 +510,7 @@ a:focus-visible{
     }
 }
 
-@media (max-width: 420px){
+@media (max-width: 560px){
     .page{
         padding: clamp(14px, 4vw, 18px);
         padding-bottom: 48px;
@@ -522,9 +521,7 @@ a:focus-visible{
     .contact__card,
     .contact__hint{ padding: 12px; }
     .contact__row{
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
+        grid-template-columns: 110px minmax(0, 1fr);
     }
 }
 
