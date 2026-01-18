@@ -30,6 +30,8 @@
   --dx: 0px;
   --dy: 0px;
   --mr: 1px;
+
+  --lamp-scale: 1;
 }
 
 *,
@@ -213,8 +215,8 @@ body.blackout::after{ opacity: .35; }
 /* маятник: вращаем риг */
 .lamp__rig{
   position:absolute; inset:0;
-  transform-origin: 50% 0%;
-  transform: rotate(var(--lamp-rot, 0deg));
+  transform-origin: top center;
+  transform: rotate(var(--lamp-rot, 0deg)) scale(var(--lamp-scale, 1));
   will-change: transform;
 }
 
@@ -632,8 +634,13 @@ body.blackout .lamp__bulb{ filter: brightness(.92); }
 }
 
 @media (max-width: 430px){
+  :root{
+    --lamp-scale: 0.78;
+  }
+
   .logo-word{
-    font-size: clamp(28px, 9vw, 44px);
-    letter-spacing: clamp(1px, 0.6vw, 5px);
+    transform: translateY(-22px);
+    font-size: clamp(28px, 8.5vw, 44px);
+    letter-spacing: clamp(1px, 0.5vw, 4px);
   }
 }
