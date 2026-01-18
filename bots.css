@@ -334,14 +334,25 @@ a:focus-visible{
 .contact__row{
     display:grid;
     grid-template-columns: 120px 1fr;
-    gap: 12px;
+    column-gap: 12px;
     align-items:start;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
 }
 .contact__row:last-child{ border-bottom:none; }
-.k{ font-size: 11px; opacity:.75; color: rgba(0,0,0,.62); }
-.contact__row a{ overflow-wrap:anywhere; word-break: break-word; min-width: 0; }
+.contact-label{
+    font-size: 11px;
+    opacity:.75;
+    color: rgba(0,0,0,.62);
+    white-space: nowrap;
+}
+.contact-value{
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.35;
+    display:block;
+}
 
 .contact__hint{
     border:1px solid var(--line);
@@ -459,6 +470,13 @@ a:focus-visible{
 @media (max-width: 960px){
     .grid2{ grid-template-columns: 1fr; }
     .contact{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 420px){
+    .contact__row{
+        grid-template-columns: 1fr;
+        row-gap: 6px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce){
