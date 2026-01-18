@@ -11,9 +11,9 @@
   "use strict";
 
   const TRACKS = [
-    { title: "Preview: D1g1tal rain in sunny p4rk", meta: "SEROTONYL · 160 bpm", src: "./audio/preview1.mp3" },
-    { title: "Preview: Memories",     meta: "SEROTONYL · 116 bpm", src: "./audio/preview2.mp3" },
-    { title: "Preview: YOUR MAJESTY",      meta: "SEROTONYL · 125 bpm", src: "./audio/preview3.mp3" },
+    { title: "Демо: Цифровой дождь в солнечном парке", meta: "SEROTONYL · 160 уд/мин", src: "./audio/preview1.mp3" },
+    { title: "Демо: Воспоминания",     meta: "SEROTONYL · 116 уд/мин", src: "./audio/preview2.mp3" },
+    { title: "Демо: ВАШЕ ВЕЛИЧЕСТВО",      meta: "SEROTONYL · 125 уд/мин", src: "./audio/preview3.mp3" },
   ];
 
   const $ = (sel) => document.querySelector(sel);
@@ -159,7 +159,7 @@
       try {
         await audio.play();
         document.body.classList.add("is-playing");
-        if (playBtn) playBtn.textContent = "PAUSE";
+        if (playBtn) playBtn.textContent = "ПАУЗА";
         startLoop();
       } catch (e) {
         if (copyNote) copyNote.textContent = "Не смог запустить аудио. Проверь путь к файлу и DevTools → Console.";
@@ -170,14 +170,14 @@
     const pause = () => {
       audio.pause();
       document.body.classList.remove("is-playing");
-      if (playBtn) playBtn.textContent = "PLAY";
+      if (playBtn) playBtn.textContent = "ИГРАТЬ";
     };
 
     const stopAll = () => {
       audio.pause();
       audio.currentTime = 0;
       document.body.classList.remove("is-playing");
-      if (playBtn) playBtn.textContent = "PLAY";
+      if (playBtn) playBtn.textContent = "ИГРАТЬ";
     };
 
     const togglePlay = () => {
@@ -335,14 +335,14 @@
 
     audio.addEventListener("ended", () => {
       document.body.classList.remove("is-playing");
-      if (playBtn) playBtn.textContent = "PLAY";
+      if (playBtn) playBtn.textContent = "ИГРАТЬ";
       stopLoop();
     });
 
     audio.addEventListener("play", startLoop);
     audio.addEventListener("pause", () => {
       document.body.classList.remove("is-playing");
-      if (playBtn) playBtn.textContent = "PLAY";
+      if (playBtn) playBtn.textContent = "ИГРАТЬ";
     });
 
     copyTpl?.addEventListener("click", async () => {

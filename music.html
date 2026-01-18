@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>SEROTONYL / MUSIC</title>
+  <title>SEROTONYL / МУЗЫКА</title>
   <link rel="stylesheet" href="music.css" />
   <script src="music.js" defer></script>
 </head>
@@ -16,35 +16,35 @@
 
 <header class="top">
   <a class="brand" href="index.html">SEROTONYL</a>
-  <span class="crumb">MUSIC</span>
+  <span class="crumb">МУЗЫКА</span>
 
-  <a class="order" href="#order" aria-label="Как заказать">order</a>
+  <a class="order" href="#order" aria-label="Как заказать">заказать</a>
 </header>
 
 <main class="wrap">
   <section class="hero">
     <div class="hero__left">
-      <h1 class="h">MUSIC / TAPE DECK</h1>
+      <h1 class="h">МУЗЫКА / КАССЕТНИК</h1>
       <p class="p">
-        Коммишны. DnB/Jungle/Тяжёлые гитары, перегруз и транзиенты.
+        Коммишны. Драм-н-бейс/джангл/тяжёлые гитары, перегруз и транзиенты.
       </p>
       <div class="chips" role="list" aria-label="Условия">
-        <span class="chip" role="listitem">commission only</span>
-        <span class="chip" role="listitem">stems по запросу</span>
+        <span class="chip" role="listitem">только на заказ</span>
+        <span class="chip" role="listitem">стемы по запросу</span>
         <span class="chip" role="listitem">сроки по задаче</span>
       </div>
-      <p class="p p--hint">Жми PLAY и начнется мясо.</p>
+      <p class="p p--hint">Жми «ИГРАТЬ» и начнётся мясо.</p>
     </div>
 
     <div class="hero__right">
       <section class="deck" id="deck" aria-label="Кассетник">
         <div class="deck__top">
-          <div class="deck__tag">TAPE</div>
+          <div class="deck__tag">КАССЕТА</div>
           <div class="deck__meta">
-            <div id="trackTitle" class="deck__title">Preview: D1g1tal rain in sunny p4rk</div>
-            <div id="trackMeta" class="deck__sub">SEROTONYL · 140 bpm</div>
+            <div id="trackTitle" class="deck__title">Демо: Цифровой дождь в солнечном парке</div>
+            <div id="trackMeta" class="deck__sub">SEROTONYL · 140 уд/мин</div>
           </div>
-          <div class="deck__rec" aria-hidden="true"><span class="dot"></span>REC</div>
+          <div class="deck__rec" aria-hidden="true"><span class="dot"></span>ЗАПИСЬ</div>
         </div>
 
         <div class="deck__mid" aria-hidden="true">
@@ -58,8 +58,8 @@
 
         <div class="deck__controls">
           <button class="btn small" id="prevBtn" type="button" aria-label="Предыдущий трек">←</button>
-          <button class="btn big" id="playBtn" type="button" aria-label="Play/Pause">PLAY</button>
-          <button class="btn small" id="stopBtn" type="button" aria-label="Стоп">STOP</button>
+          <button class="btn big" id="playBtn" type="button" aria-label="Играет/Пауза">ИГРАТЬ</button>
+          <button class="btn small" id="stopBtn" type="button" aria-label="Стоп">СТОП</button>
           <button class="btn small" id="nextBtn" type="button" aria-label="Следующий трек">→</button>
         </div>
 
@@ -75,7 +75,7 @@
 
         <div class="deck__bottom">
           <div class="intensityRow">
-            <span class="intensityLabel">INTENSITY</span>
+            <span class="intensityLabel">ИНТЕНСИВНОСТЬ</span>
             <input id="intensity" type="range" min="0" max="100" value="65">
           </div>
           <p class="copy" id="copyNote" aria-live="polite"></p>
@@ -85,45 +85,45 @@
   </section>
 
   <section class="rack" aria-label="Кассеты">
-    <h2 class="h2">CASSETTE RACK</h2>
+    <h2 class="h2">КАССЕТЫ</h2>
 
     <div class="rack__grid" id="rackGrid">
       <!-- ВАЖНО: внутри button только <span> (так валидатор не орёт) -->
-      <button class="tapeCard is-active" type="button" data-i="0" aria-label="Включить Tape 01">
-        <span class="tapeCard__kicker">TAPE 01</span>
-        <span class="tapeCard__title">Preview: D1g1tal rain in sunny p4rk</span>
+      <button class="tapeCard is-active" type="button" data-i="0" aria-label="Включить Кассету 01">
+        <span class="tapeCard__kicker">КАССЕТА 01</span>
+        <span class="tapeCard__title">Демо: Цифровой дождь в солнечном парке</span>
         <span class="tapeCard__tags" aria-hidden="true">
-            <span class="tag">jungle</span>
-            <span class="tag">breaks</span>
-            <span class="tag">transients</span>
+            <span class="tag">джангл</span>
+            <span class="tag">брейки</span>
+            <span class="tag">транзиенты</span>
           </span>
       </button>
 
-      <button class="tapeCard" type="button" data-i="1" aria-label="Включить Tape 02">
-        <span class="tapeCard__kicker">TAPE 02</span>
-        <span class="tapeCard__title">Preview: Memories</span>
+      <button class="tapeCard" type="button" data-i="1" aria-label="Включить Кассету 02">
+        <span class="tapeCard__kicker">КАССЕТА 02</span>
+        <span class="tapeCard__title">Демо: Воспоминания</span>
         <span class="tapeCard__tags" aria-hidden="true">
-            <span class="tag">calm</span>
-            <span class="tag">vibe</span>
-            <span class="tag">pressure</span>
+            <span class="tag">спокойно</span>
+            <span class="tag">настроение</span>
+            <span class="tag">давление</span>
           </span>
       </button>
 
-      <button class="tapeCard" type="button" data-i="2" aria-label="Включить Tape 03">
-        <span class="tapeCard__kicker">TAPE 03</span>
-        <span class="tapeCard__title">Preview: YOUR MAJESTY</span>
+      <button class="tapeCard" type="button" data-i="2" aria-label="Включить Кассету 03">
+        <span class="tapeCard__kicker">КАССЕТА 03</span>
+        <span class="tapeCard__title">Демо: ВАШЕ ВЕЛИЧЕСТВО</span>
         <span class="tapeCard__tags" aria-hidden="true">
-            <span class="tag">guitars</span>
-            <span class="tag">blow-up</span>
-            <span class="tag">noise</span>
+            <span class="tag">гитары</span>
+            <span class="tag">разнос</span>
+            <span class="tag">шум</span>
           </span>
       </button>
     </div>
 
   </section>
 
-  <section class="commission" id="order" aria-label="Коммишн">
-    <h2 class="h2">COMMISSION</h2>
+  <section class="commission" id="order" aria-label="Заказ">
+    <h2 class="h2">ЗАКАЗ</h2>
 
     <div class="cols">
       <div class="card">
@@ -155,14 +155,14 @@
 Что точно надо:
 Дедлайн:</textarea>
         <div class="row">
-          <button class="btn" id="copyTpl" type="button">COPY TEMPLATE</button>
+          <button class="btn" id="copyTpl" type="button">Скопировать шаблон</button>
           <span class="mini" id="copyStatus" aria-live="polite"></span>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="foot">© SEROTONYL — Music</footer>
+  <footer class="foot">© SEROTONYL — Музыка</footer>
 </main>
 
 <!-- SVG фильтры (валидно, без странных "старых" штук) -->

@@ -135,6 +135,7 @@
             if (!c) return;
             lastFocus = document.activeElement;
             isClosing = false;
+            dlg.classList.remove("closing");
 
             title.textContent = c.title;
             body.innerHTML = c.body;
@@ -142,46 +143,37 @@
             if (typeof dlg.showModal === "function") dlg.showModal();
             else dlg.setAttribute("open", "open");
 
-            dlg.classList.add("is-visible");
-            if (prefersReduce) {
-                dlg.classList.add("is-open");
-            } else {
-                requestAnimationFrame(() => {
-                    dlg.classList.add("is-open");
-                });
-            }
-
             closeBtn.focus();
         }
 
         function closeCase() {
             if (!dlg.hasAttribute("open") || isClosing) return;
+            if (prefersReduce) {
+                if (typeof dlg.close === "function") dlg.close();
+                else dlg.removeAttribute("open");
+                if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+                return;
+            }
             isClosing = true;
-            dlg.classList.remove("is-open");
+            dlg.classList.add("closing");
 
             const finishClose = () => {
-                dlg.classList.remove("is-visible");
+                dlg.classList.remove("closing");
                 if (typeof dlg.close === "function") dlg.close();
                 else dlg.removeAttribute("open");
                 isClosing = false;
                 if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
             };
 
-            if (prefersReduce) {
-                finishClose();
-                return;
-            }
-
             const onEnd = (event) => {
                 if (event.target !== dlg) return;
-                dlg.removeEventListener("transitionend", onEnd);
                 finishClose();
             };
-            dlg.addEventListener("transitionend", onEnd);
+            dlg.addEventListener("animationend", onEnd, { once: true });
+            dlg.addEventListener("animationcancel", onEnd, { once: true });
             setTimeout(() => {
-                dlg.removeEventListener("transitionend", onEnd);
                 if (isClosing) finishClose();
-            }, 220);
+            }, 240);
 
         }
 
