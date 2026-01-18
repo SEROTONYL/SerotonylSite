@@ -333,7 +333,7 @@ a:focus-visible{
 }
 .contact__row{
     display:grid;
-    grid-template-columns: 140px minmax(0, 1fr);
+    grid-template-columns: 120px 1fr;
     gap: 12px;
     align-items:start;
     padding: 10px 0;
