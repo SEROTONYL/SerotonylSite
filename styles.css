@@ -390,6 +390,13 @@ body.blackout .lamp__bulb{ filter: brightness(.92); }
           0 -1px 0 rgba(0,0,0,.35);
 }
 
+.logo-word{
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1;
+  transform: translateY(-10px);
+}
+
 .secret-logo__sub{display:none;}
 
 .secret-logo .ch{
@@ -621,5 +628,12 @@ body.blackout .lamp__bulb{ filter: brightness(.92); }
     font-size:8px;
     text-align:center;
     padding:0 12px;
+  }
+}
+
+@media (max-width: 430px){
+  .logo-word{
+    font-size: clamp(28px, 9vw, 44px);
+    letter-spacing: clamp(1px, 0.6vw, 5px);
   }
 }
