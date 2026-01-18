@@ -20,7 +20,11 @@
 *,
 *::before,
 *::after{ box-sizing:border-box; }
-html,body{ height:100%; }
+html,body{
+    height:100%;
+    max-width:100%;
+    overflow-x:hidden;
+}
 img,
 svg,
 video,
@@ -41,7 +45,13 @@ body{
     background:var(--bg);
     color:var(--ink);
     font-family:var(--ui);
-    overflow-x:hidden;
+}
+
+a,
+p,
+li{
+    overflow-wrap:anywhere;
+    word-break: break-word;
 }
 
 .grain::before{
@@ -89,7 +99,7 @@ a:focus-visible{
     display:flex;
     align-items:center;
     gap:16px;
-    padding:14px 18px;
+    padding: max(14px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) 14px max(18px, env(safe-area-inset-left));
     background: rgba(251,251,251,.84);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--line);
@@ -347,8 +357,8 @@ a:focus-visible{
 }
 .contact__row{
     display:grid;
-    grid-template-columns: clamp(92px, 22vw, 150px) 1fr;
-    gap: 12px;
+    grid-template-columns: minmax(110px, 140px) 1fr;
+    column-gap: 12px;
     align-items:start;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
@@ -358,6 +368,7 @@ a:focus-visible{
     font-size: 11px;
     opacity:.75;
     color: rgba(0,0,0,.62);
+    white-space: nowrap;
     overflow-wrap: anywhere;
 }
 .contact-value{
@@ -493,7 +504,15 @@ a:focus-visible{
 }
 
 @media (max-width: 420px){
-    .page{ padding-bottom: 48px; }
+    .page{
+        padding: clamp(14px, 4vw, 18px);
+        padding-bottom: 48px;
+    }
+    .h1{ font-size: clamp(18px, 6vw, 24px); }
+    .case,
+    .card,
+    .contact__card,
+    .contact__hint{ padding: 12px; }
     .contact__row{
         grid-template-columns: 1fr;
         row-gap: 6px;

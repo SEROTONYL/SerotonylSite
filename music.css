@@ -42,7 +42,11 @@
   white-space:nowrap;
   border:0;
 }
-html,body{ height:100%; }
+html,body{
+  height:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
 img,
 svg,
 video,
@@ -60,7 +64,7 @@ body{
   margin:0;
   color:var(--ink);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  overflow-x:clip;
+  overflow-x:hidden;
 
   /* darker, nastier, more "you" */
   background:
@@ -68,6 +72,13 @@ body{
           radial-gradient(circle at 82% 28%, rgba(55,255,179,.18) 0%, transparent 52%),
           radial-gradient(circle at 55% 86%, rgba(255,47,146,.14) 0%, transparent 54%),
           linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+a,
+p,
+li{
+  overflow-wrap:anywhere;
+  word-break: break-word;
 }
 
 /* --- overlays --- */
@@ -153,7 +164,7 @@ body.is-playing .ambience::before{
   position:sticky;
   top:0;
   z-index:10;
-  padding:12px 18px;
+  padding: max(12px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) 12px max(18px, env(safe-area-inset-left));
   margin:-28px -18px 22px;
   background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.25));
   backdrop-filter: blur(10px);
@@ -542,7 +553,7 @@ body.is-ready{ opacity:1; }
   align-items:baseline;
   flex-wrap:wrap;
   gap:12px;
-  padding:12px var(--page-pad);
+  padding: max(12px, env(safe-area-inset-top)) max(var(--page-pad), env(safe-area-inset-right)) 12px max(var(--page-pad), env(safe-area-inset-left));
   margin:0 0 22px;
   background: linear-gradient(180deg, rgba(0,0,0,.65), rgba(0,0,0,.25));
   backdrop-filter: blur(10px);
