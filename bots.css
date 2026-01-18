@@ -228,9 +228,10 @@ a:focus-visible{
 
 .case__top{
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
     gap: 10px;
+    flex-wrap: wrap;
 }
 .case__id{ font-size: 11px; color: rgba(0,0,0,.65); }
 .case__hint{
@@ -331,16 +332,16 @@ a:focus-visible{
     padding: 14px;
 }
 .contact__row{
-    display:flex;
+    display:grid;
+    grid-template-columns: 140px minmax(0, 1fr);
     gap: 12px;
-    align-items:center;
-    flex-wrap: wrap;
+    align-items:start;
     padding: 10px 0;
     border-bottom: 1px dashed rgba(0,0,0,.14);
 }
 .contact__row:last-child{ border-bottom:none; }
-.k{ min-width: 70px; font-size: 11px; opacity:.75; color: rgba(0,0,0,.62); }
-.contact__row a{ overflow-wrap:anywhere; word-break: break-word; }
+.k{ font-size: 11px; opacity:.75; color: rgba(0,0,0,.62); }
+.contact__row a{ overflow-wrap:anywhere; word-break: break-word; min-width: 0; }
 
 .contact__hint{
     border:1px solid var(--line);
@@ -377,8 +378,27 @@ a:focus-visible{
     background: rgba(255,255,255,.94);
     box-shadow: 0 26px 80px rgba(0,0,0,.18);
     padding: 14px;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
 }
-.dialog::backdrop{ background: rgba(0,0,0,.25); }
+.dialog::backdrop{
+    background: rgba(0,0,0,.25);
+    opacity: 0;
+    transition: opacity .18s ease;
+}
+.dialog.is-visible{
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity .18s ease, transform .18s ease, visibility 0s;
+}
+.dialog.is-open{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+.dialog.is-open::backdrop{ opacity: 1; }
 .dialog__top{
     display:flex;
     justify-content:space-between;
@@ -444,4 +464,9 @@ a:focus-visible{
 @media (prefers-reduced-motion: reduce){
     [data-reveal]{ transition:none; transform:none; opacity:1; }
     #dust{ display:none; }
+    .dialog{
+        transition: none;
+        transform: none;
+    }
+    .dialog::backdrop{ transition: none; }
 }
