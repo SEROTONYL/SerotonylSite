@@ -5,6 +5,14 @@
         !!window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    function setHeaderOffset() {
+        const header = document.querySelector(".topbar");
+        if (!header) return;
+        const rect = header.getBoundingClientRect();
+        const offset = Math.max(0, Math.ceil(rect.height + 8));
+        document.documentElement.style.setProperty("--header-offset", `${offset}px`);
+    }
+
     function setupReveal() {
         const items = Array.from(document.querySelectorAll("[data-reveal]"));
         if (!items.length) return;
@@ -88,6 +96,53 @@
             requestAnimationFrame(frame);
         }
         requestAnimationFrame(frame);
+    }
+
+    function setupSmoothScroll() {
+        const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+        const getTargetTop = (target) => {
+            const rect = target.getBoundingClientRect();
+            const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-offset")) || 0;
+            return Math.max(0, rect.top + window.pageYOffset - offset);
+        };
+
+        const scrollToTarget = (target) => {
+            const startY = window.pageYOffset;
+            const targetY = getTargetTop(target);
+            const distance = targetY - startY;
+            if (prefersReduce || Math.abs(distance) < 2) {
+                window.scrollTo(0, targetY);
+                return;
+            }
+
+            const duration = 600;
+            let start = null;
+
+            const step = (timestamp) => {
+                if (!start) start = timestamp;
+                const elapsed = timestamp - start;
+                const progress = Math.min(1, elapsed / duration);
+                const eased = ease(progress);
+                window.scrollTo(0, startY + distance * eased);
+                if (progress < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        };
+
+        document.addEventListener("click", (event) => {
+            const link = event.target.closest('a[href^="#"]');
+            if (!link) return;
+            const href = link.getAttribute("href");
+            if (!href || href === "#") return;
+            if (link.origin && link.origin !== window.location.origin) return;
+
+            const target = document.querySelector(href);
+            if (!target) return;
+
+            event.preventDefault();
+            scrollToTarget(target);
+            history.pushState(null, "", href);
+        });
     }
 
     const CASES = {
@@ -205,12 +260,16 @@
     }
 
     function boot() {
+        setHeaderOffset();
         setupReveal();
         setupDust();
+        setupSmoothScroll();
         setupCases();
     }
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", boot);
     } else boot();
+
+    window.addEventListener("resize", setHeaderOffset);
 })();
