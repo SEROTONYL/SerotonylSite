@@ -55,6 +55,7 @@ canvas{
 /* пиксельный курсор */
 html{
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%230a0a0a' d='M1 1h2v2H1zM3 3h2v2H3zM5 5h2v2H5zM7 7h2v2H7zM9 9h2v2H9zM11 11h2v2h-2zM7 9h2v4H7zM9 11h2v2H9z'/%3E%3C/svg%3E") 0 0, auto;
+  scroll-behavior: smooth;
 }
 
 body{
