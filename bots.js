@@ -53,13 +53,13 @@
             c.style.height = window.innerHeight + "px";
 
             pts.length = 0;
-            const N = Math.max(110, Math.min(220, Math.floor((window.innerWidth*window.innerHeight)/14000)));
+            const N = Math.max(80, Math.min(160, Math.floor((window.innerWidth*window.innerHeight)/16000)));
             for (let i=0;i<N;i++){
                 pts.push({
                     x: Math.random()*w,
                     y: Math.random()*h,
                     r: rand(0.6, 1.5)*dpr,
-                    a: rand(0.08, 0.22),
+                    a: rand(0.05, 0.16),
                     vx: rand(-0.05, 0.05)*dpr,
                     vy: rand(-0.05, 0.05)*dpr
                 });
