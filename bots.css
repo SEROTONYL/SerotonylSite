@@ -462,8 +462,11 @@ a:focus-visible{
     flex-wrap:wrap;
     justify-content:center;
     gap: var(--chip-gap);
-    min-height: calc((var(--chip-height) * 2) + var(--chip-gap));
     align-content:flex-start;
+}
+.anchor{
+    display:block;
+    height:0;
 }
 .tag{
     font-size: 12px;

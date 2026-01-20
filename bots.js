@@ -98,35 +98,27 @@
         requestAnimationFrame(frame);
     }
 
-    function setupSmoothScroll() {
-        const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-        const getTargetTop = (target) => {
-            const rect = target.getBoundingClientRect();
-            const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-offset")) || 0;
-            return Math.max(0, rect.top + window.pageYOffset - offset);
-        };
+    function scrollToHash(hash, behaviorOverride) {
+        if (!hash || hash === "#") return false;
+        const id = hash.slice(1);
+        if (!id) return false;
+        const target = document.getElementById(id);
+        if (!target) return false;
 
-        const scrollToTarget = (target) => {
-            const startY = window.pageYOffset;
-            const targetY = getTargetTop(target);
-            const distance = targetY - startY;
-            if (prefersReduce || Math.abs(distance) < 2) {
-                window.scrollTo(0, targetY);
-                return;
-            }
+        setHeaderOffset();
+        const behavior = behaviorOverride || (prefersReduce ? "auto" : "smooth");
+        target.scrollIntoView({ behavior, block: "start" });
+        return true;
+    }
 
-            const duration = 600;
-            let start = null;
+    function setupAnchorNavigation() {
+        let lastKnownHash = "";
 
-            const step = (timestamp) => {
-                if (!start) start = timestamp;
-                const elapsed = timestamp - start;
-                const progress = Math.min(1, elapsed / duration);
-                const eased = ease(progress);
-                window.scrollTo(0, startY + distance * eased);
-                if (progress < 1) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
+        const handleNavigation = (hash, behavior) => {
+            if (!hash || hash === "#") return;
+            if (hash === lastKnownHash) return;
+            const didScroll = scrollToHash(hash, behavior);
+            if (didScroll) lastKnownHash = hash;
         };
 
         document.addEventListener("click", (event) => {
@@ -134,15 +126,36 @@
             if (!link) return;
             const href = link.getAttribute("href");
             if (!href || href === "#") return;
-            if (link.origin && link.origin !== window.location.origin) return;
+            if (link.target && link.target !== "_self") return;
 
-            const target = document.querySelector(href);
+            const target = document.getElementById(href.slice(1));
             if (!target) return;
 
             event.preventDefault();
-            scrollToTarget(target);
-            history.pushState(null, "", href);
+            const behavior = prefersReduce ? "auto" : "smooth";
+            if (scrollToHash(href, behavior)) {
+                if (href !== window.location.hash) {
+                    history.pushState(null, "", href);
+                }
+                lastKnownHash = href;
+            }
         });
+
+        window.addEventListener("hashchange", () => {
+            const behavior = prefersReduce ? "auto" : "smooth";
+            handleNavigation(window.location.hash, behavior);
+        });
+
+        window.addEventListener("popstate", () => {
+            const behavior = prefersReduce ? "auto" : "smooth";
+            handleNavigation(window.location.hash, behavior);
+        });
+
+        if (window.location.hash) {
+            if (scrollToHash(window.location.hash, "auto")) {
+                lastKnownHash = window.location.hash;
+            }
+        }
     }
 
     const CASES = {
@@ -263,7 +276,7 @@
         setHeaderOffset();
         setupReveal();
         setupDust();
-        setupSmoothScroll();
+        setupAnchorNavigation();
         setupCases();
     }
 
