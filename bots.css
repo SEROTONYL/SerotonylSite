@@ -43,6 +43,7 @@ canvas{
     html{ scroll-behavior:smooth; }
 }
 html{ scroll-padding-top: 86px; }
+[id]{ scroll-margin-top: 86px; }
 
 body{
     margin:0;
@@ -434,14 +435,19 @@ a:focus-visible{
 }
 .case__id{ font-size: 11px; color: rgba(0,0,0,.65); }
 .case__hint{
+    display:inline-flex;
+    align-items:center;
     font-size: 12px;
+    line-height: 1.2;
     color: rgba(0,0,0,.55);
     padding: 6px 10px;
+    min-height: 28px;
     border-radius: 999px;
     border: 1px solid rgba(0,0,0,.14);
     background:
             linear-gradient(180deg, rgba(0,0,0,.03), rgba(0,0,0,.00)),
             radial-gradient(circle at 20% 30%, rgba(0,0,0,.05), transparent 60%);
+    white-space: nowrap;
     overflow-wrap: anywhere;
 }
 
@@ -457,7 +463,8 @@ a:focus-visible{
     display:flex;
     flex-wrap:wrap;
     gap:6px;
-    min-height: 36px;
+    min-height: 68px;
+    align-content:flex-start;
 }
 .tag{
     font-size: 12px;
