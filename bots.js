@@ -34,6 +34,7 @@
 
     function setupDust() {
         if (prefersReduce) return;
+        if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) return;
         const c = document.getElementById("dust");
         if (!c) return;
 

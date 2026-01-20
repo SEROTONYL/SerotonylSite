@@ -32,12 +32,15 @@
         <a href="#cases">Задачи</a>
         <a href="#services">Что я делаю</a>
     </nav>
+
+    <a class="topbar__cta" href="https://t.me/yaveiiii" target="_blank" rel="noopener">Написать в Telegram</a>
 </header>
 
 <main class="page">
     <section class="hero" data-reveal>
         <div class="hero__left">
-            <h1 class="h1 pix">TELEGRAM-БОТЫ ДЛЯ БИЗНЕСА</h1>
+            <div class="eyebrow pix">Telegram-боты под вашу задачу</div>
+            <h1 class="h1">Telegram-боты для бизнеса</h1>
             <div class="hero-callout">
                 <p class="lead">
                     Делаю Telegram-ботов, которые берут на себя заявки, ответы и выдачу доступа.
@@ -51,13 +54,42 @@
                 <span class="badge">Экономит время команды</span>
             </div>
 
-            <a class="mini-link" href="#contact">↓ Написать и обсудить задачу</a>
+            <div class="hero__actions">
+                <a class="btn-primary" href="https://t.me/yaveiiii" target="_blank" rel="noopener">Обсудить задачу в Telegram</a>
+                <a class="btn-ghost" href="#cases">Смотреть примеры</a>
+            </div>
+            <div class="hero__trust muted small">Ответ в течение дня • Без созвона, если не нужно</div>
+        </div>
+
+        <div class="hero__right" aria-hidden="true">
+            <div class="chat-mockup">
+                <div class="chat-mockup__top">
+                    <span class="chat-mockup__dot"></span>
+                    <span class="chat-mockup__dot"></span>
+                    <span class="chat-mockup__dot"></span>
+                    <span class="chat-mockup__title">Бот • Запись клиентов</span>
+                </div>
+                <div class="chat-mockup__body">
+                    <div class="bubble bubble--bot">Привет! Чем могу помочь?</div>
+                    <div class="bubble bubble--user">Хочу записаться на консультацию.</div>
+                    <div class="bubble bubble--bot">Выберите услугу:</div>
+                    <div class="bubble bubble--bot bubble--buttons">
+                        <span>Аудит</span>
+                        <span>Подключение</span>
+                        <span>Поддержка</span>
+                    </div>
+                    <div class="bubble bubble--bot">Укажите удобную дату и время.</div>
+                    <div class="bubble bubble--user">Завтра после 17:00</div>
+                    <div class="bubble bubble--bot">Готово! Отправил заявку менеджеру.</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="cases" class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">ПРИМЕРЫ БОТОВ</h2>
+            <h2 class="h2">Примеры ботов</h2>
+            <p class="section__note muted">Живые сценарии и результат для бизнеса — без лишней терминологии.</p>
         </div>
 
         <div class="cases">
@@ -76,7 +108,11 @@
                     Бот принимает заявку, задаёт уточняющие вопросы и отправляет её нужному сотруднику.
                     Никаких потерянных обращений и переписок в личке.
                 </p>
-                <button class="case__open" type="button">ОТКРЫТЬ ЗАДАЧУ</button>
+                <p class="case__result"><strong>Итог:</strong> заявки доходят до нужного человека за минуты.</p>
+                <div class="case__actions">
+                    <a class="btn-primary btn-small" href="#contact">Хочу так же</a>
+                    <button class="case__open" type="button">Открыть задачу</button>
+                </div>
             </article>
 
             <article class="case" data-case="moderation" data-reveal data-stagger>
@@ -94,7 +130,11 @@
                     Бот отвечает на частые вопросы, показывает прайс и собирает данные для обратной связи.
                     Сотрудники подключаются только к сложным случаям.
                 </p>
-                <button class="case__open" type="button">ОТКРЫТЬ ЗАДАЧУ</button>
+                <p class="case__result"><strong>Итог:</strong> клиент получает ответ сразу, а команда — только важное.</p>
+                <div class="case__actions">
+                    <a class="btn-primary btn-small" href="#contact">Хочу так же</a>
+                    <button class="case__open" type="button">Открыть задачу</button>
+                </div>
             </article>
 
             <article class="case" data-case="payments" data-reveal data-stagger>
@@ -112,19 +152,27 @@
                     Клиент оплачивает услугу, бот сразу даёт доступ и напоминает о продлении.
                     Вам не нужно вручную проверять оплаты.
                 </p>
-                <button class="case__open" type="button">ОТКРЫТЬ ЗАДАЧУ</button>
+                <p class="case__result"><strong>Итог:</strong> доступ выдается автоматически без потерь оплат.</p>
+                <div class="case__actions">
+                    <a class="btn-primary btn-small" href="#contact">Хочу так же</a>
+                    <button class="case__open" type="button">Открыть задачу</button>
+                </div>
             </article>
         </div>
     </section>
 
     <section id="services" class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">ЧТО УМЕЕТ БОТ</h2>
+            <h2 class="h2">Что умеет бот</h2>
+            <p class="section__note muted">Собираю сценарии под ваши процессы — от заявок до оплаты.</p>
         </div>
 
         <div class="grid2">
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">ВОЗМОЖНОСТИ</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">Возможности</h3>
+                </div>
                 <ul class="list">
                     <li>Приём заявок и запись клиентов</li>
                     <li>Ответы на частые вопросы</li>
@@ -134,7 +182,10 @@
                 </ul>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">КОМУ ПОДОЙДЁТ</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Кому подойдёт</h3>
+                </div>
                 <ul class="list">
                     <li>Сервисам и специалистам, которым пишут в личку</li>
                     <li>Небольшим магазинам с повторяющимися вопросами</li>
@@ -147,11 +198,15 @@
 
     <section class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">КАК ПРОХОДИТ РАБОТА</h2>
+            <h2 class="h2">Как проходит работа</h2>
+            <p class="section__note muted">Прозрачный процесс: от короткого брифа до запуска.</p>
         </div>
         <div class="grid2">
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">4 ШАГА</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">4 шага</h3>
+                </div>
                 <ul class="list">
                     <li>Коротко обсуждаем задачу и цель</li>
                     <li>Согласуем сценарии и тексты</li>
@@ -160,7 +215,10 @@
                 </ul>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">СРОКИ</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Сроки</h3>
+                </div>
                 <ul class="list">
                     <li>Базовый бот: 5–10 дней</li>
                     <li>Средний: 10–20 дней</li>
@@ -172,11 +230,15 @@
 
     <section class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">ЧТО НУЖНО ОТ ВАС</h2>
+            <h2 class="h2">Что нужно от вас</h2>
+            <p class="section__note muted">Минимум входных данных — помогу сформулировать.</p>
         </div>
         <div class="grid2">
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">МИНИМУМ ДАННЫХ</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">Минимум данных</h3>
+                </div>
                 <ul class="list">
                     <li>Короткое описание задачи</li>
                     <li>Примеры, как это должно работать</li>
@@ -184,7 +246,10 @@
                 </ul>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">ПРИМЕР ИЗ ЖИЗНИ</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Пример из жизни</h3>
+                </div>
                 <ul class="list">
                     <li>Клиент пишет «хочу записаться»</li>
                     <li>Бот собирает дату и время</li>
@@ -196,31 +261,49 @@
 
     <section class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">FAQ</h2>
+            <h2 class="h2">FAQ</h2>
         </div>
         <div class="grid2">
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Сколько это стоит?</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">Сколько это стоит?</h3>
+                </div>
                 <p class="muted">Цена зависит от количества сценариев. После краткого описания задачи скажу вилку.</p>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Нужно ли техническое задание?</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Нужно ли техническое задание?</h3>
+                </div>
                 <p class="muted">Нет. Достаточно объяснить, что должно происходить шаг за шагом.</p>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Бот будет отвечать 24/7?</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">Бот будет отвечать 24/7?</h3>
+                </div>
                 <p class="muted">Да, бот работает постоянно. Вы подключаетесь только к сложным вопросам.</p>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Можно ли подключить таблицу?</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Можно ли подключить таблицу?</h3>
+                </div>
                 <p class="muted">Да, если у вас есть таблица или список клиентов, бот сможет с ним работать.</p>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Что с поддержкой после запуска?</h3>
+                <div class="card__head">
+                    <span class="card__icon" aria-hidden="true"></span>
+                    <h3 class="card__h">Что с поддержкой после запуска?</h3>
+                </div>
                 <p class="muted">Исправляю ошибки и помогаю с обновлениями, чтобы бот не простаивал.</p>
             </div>
             <div class="card" data-reveal data-stagger>
-                <h3 class="card__h pix">Можно ли начать с малого?</h3>
+                <div class="card__head">
+                    <span class="card__icon card__icon--soft" aria-hidden="true"></span>
+                    <h3 class="card__h">Можно ли начать с малого?</h3>
+                </div>
                 <p class="muted">Да. Сделаем базовую версию и добавим функции по мере необходимости.</p>
             </div>
         </div>
@@ -228,11 +311,19 @@
 
     <section id="contact" class="section">
         <div class="section__head" data-reveal>
-            <h2 class="h2 pix">КОНТАКТЫ</h2>
+            <h2 class="h2">Контакты</h2>
+            <p class="section__note muted">Быстрее всего — Telegram. Почта и GitHub для справки.</p>
         </div>
 
         <div class="contact" data-reveal>
             <div class="contact__card">
+                <div class="contact__actions">
+                    <a class="btn-primary" href="https://t.me/yaveiiii" target="_blank" rel="noopener">Написать в Telegram</a>
+                    <div class="contact__secondary">
+                        <a class="btn-ghost btn-small" href="mailto:vladislav.yavorskiy.00@mail.ru">Почта</a>
+                        <a class="btn-ghost btn-small" href="https://github.com/SEROTONYL" target="_blank" rel="noopener">GitHub</a>
+                    </div>
+                </div>
                 <div class="contact__row">
                     <span class="contact-label pix k">ТЕЛЕГРАМ</span>
                     <a class="contact-value v" href="https://t.me/yaveiiii" target="_blank" rel="noopener">t.me/yaveiiii</a>
@@ -263,10 +354,14 @@
         </div>
     </section>
 
-    <footer class="footer muted small">
-        © SEROTONYL — Боты
-    </footer>
+<footer class="footer muted small">
+    © SEROTONYL — Боты
+</footer>
 </main>
+
+<div class="mobile-cta" aria-hidden="false">
+    <a class="btn-primary" href="https://t.me/yaveiiii" target="_blank" rel="noopener">Написать в Telegram</a>
+</div>
 
 <dialog class="dialog" id="caseDialog" aria-label="Задача">
     <div class="dialog__top">
